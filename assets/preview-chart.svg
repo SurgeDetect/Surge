@@ -1,0 +1,113 @@
+<svg width="720" height="440" viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Segoe UI','Arial',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0d14"/>
+      <stop offset="100%" stop-color="#080810"/>
+    </linearGradient>
+    <linearGradient id="spikeBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="normalBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f2040"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="topglow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="720" height="440" fill="url(#bg)"/>
+
+  <!-- header -->
+  <text x="36" y="36" fill="#facc15" font-size="18" font-weight="700">Surge</text>
+  <text x="104" y="36" fill="#334155" font-size="13">JUP / USDC  ·  24h volume chart</text>
+  <text x="560" y="30" fill="#334155" font-size="11">SPIKE DETECTED</text>
+  <rect x="640" y="18" width="68" height="22" rx="11" fill="#713f12"/>
+  <text x="674" y="33" fill="#facc15" font-size="11" font-weight="700" text-anchor="middle">12.4x</text>
+
+  <!-- price line -->
+  <text x="36" y="58" fill="#64748b" font-size="11">Price: $0.842  </text>
+  <text x="107" y="58" fill="#4ade80" font-size="11">+14.2% (1h)</text>
+
+  <!-- y-axis labels -->
+  <text x="28" y="110" fill="#1e3a5f" font-size="10" text-anchor="end">$2M</text>
+  <text x="28" y="158" fill="#1e3a5f" font-size="10" text-anchor="end">$1.5M</text>
+  <text x="28" y="206" fill="#1e3a5f" font-size="10" text-anchor="end">$1M</text>
+  <text x="28" y="254" fill="#1e3a5f" font-size="10" text-anchor="end">$500K</text>
+  <text x="28" y="302" fill="#1e3a5f" font-size="10" text-anchor="end">$0</text>
+
+  <!-- grid lines -->
+  <line x1="36" y1="106" x2="694" y2="106" stroke="#0f2040" stroke-width="1"/>
+  <line x1="36" y1="154" x2="694" y2="154" stroke="#0f2040" stroke-width="1"/>
+  <line x1="36" y1="202" x2="694" y2="202" stroke="#0f2040" stroke-width="1"/>
+  <line x1="36" y1="250" x2="694" y2="250" stroke="#0f2040" stroke-width="1"/>
+  <line x1="36" y1="298" x2="694" y2="298" stroke="#0f2040" stroke-width="1" stroke-dasharray="none"/>
+
+  <!-- chart baseline -->
+  <line x1="36" y1="298" x2="694" y2="298" stroke="#1e3a5f" stroke-width="1.5"/>
+
+  <!-- normal bars (24 hourly bars, most are low ~$160K baseline) -->
+  <!-- bar width ~26px, gap ~2px, starting x=40 -->
+  <rect x="40"  y="283" width="22" height="15" fill="url(#normalBar)" rx="2"/>
+  <rect x="68"  y="279" width="22" height="19" fill="url(#normalBar)" rx="2"/>
+  <rect x="96"  y="285" width="22" height="13" fill="url(#normalBar)" rx="2"/>
+  <rect x="124" y="281" width="22" height="17" fill="url(#normalBar)" rx="2"/>
+  <rect x="152" y="284" width="22" height="14" fill="url(#normalBar)" rx="2"/>
+  <rect x="180" y="280" width="22" height="18" fill="url(#normalBar)" rx="2"/>
+  <rect x="208" y="283" width="22" height="15" fill="url(#normalBar)" rx="2"/>
+  <rect x="236" y="278" width="22" height="20" fill="url(#normalBar)" rx="2"/>
+  <rect x="264" y="284" width="22" height="14" fill="url(#normalBar)" rx="2"/>
+  <rect x="292" y="281" width="22" height="17" fill="url(#normalBar)" rx="2"/>
+  <rect x="320" y="282" width="22" height="16" fill="url(#normalBar)" rx="2"/>
+  <rect x="348" y="279" width="22" height="19" fill="url(#normalBar)" rx="2"/>
+  <rect x="376" y="284" width="22" height="14" fill="url(#normalBar)" rx="2"/>
+  <rect x="404" y="280" width="22" height="18" fill="url(#normalBar)" rx="2"/>
+  <rect x="432" y="283" width="22" height="15" fill="url(#normalBar)" rx="2"/>
+  <rect x="460" y="277" width="22" height="21" fill="url(#normalBar)" rx="2"/>
+  <rect x="488" y="284" width="22" height="14" fill="url(#normalBar)" rx="2"/>
+  <rect x="516" y="282" width="22" height="16" fill="url(#normalBar)" rx="2"/>
+  <rect x="544" y="279" width="22" height="19" fill="url(#normalBar)" rx="2"/>
+  <rect x="572" y="283" width="22" height="15" fill="url(#normalBar)" rx="2"/>
+  <rect x="600" y="281" width="22" height="17" fill="url(#normalBar)" rx="2"/>
+  <rect x="628" y="284" width="22" height="14" fill="url(#normalBar)" rx="2"/>
+  <rect x="656" y="280" width="22" height="18" fill="url(#normalBar)" rx="2"/>
+
+  <!-- SPIKE BAR — last bar, current hour, massive -->
+  <rect x="684" y="110" width="22" height="188" fill="url(#spikeBar)" rx="3" filter="url(#glow)"/>
+  <!-- spike top glow -->
+  <ellipse cx="695" cy="110" rx="18" ry="8" fill="#facc15" opacity="0.4" filter="url(#topglow)"/>
+  <!-- spike label -->
+  <text x="695" y="100" fill="#facc15" font-size="11" font-weight="700" text-anchor="middle">$1.98M</text>
+  <text x="695" y="88" fill="#f59e0b" font-size="10" text-anchor="middle">NOW</text>
+
+  <!-- callout box -->
+  <rect x="536" y="120" width="136" height="60" rx="8" fill="#1a1200" stroke="#713f12" stroke-width="1.5"/>
+  <text x="604" y="140" fill="#facc15" font-size="12" font-weight="700" text-anchor="middle">⚡ SURGE</text>
+  <text x="604" y="156" fill="#f59e0b" font-size="11" text-anchor="middle">12.4x baseline</text>
+  <text x="604" y="170" fill="#713f12" font-size="10" text-anchor="middle">organic · bullish</text>
+  <!-- callout arrow -->
+  <line x1="672" y1="155" x2="684" y2="155" stroke="#713f12" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+  <!-- x-axis time labels -->
+  <text x="40"  y="316" fill="#1e3a5f" font-size="9">00:00</text>
+  <text x="208" y="316" fill="#1e3a5f" font-size="9">08:00</text>
+  <text x="376" y="316" fill="#1e3a5f" font-size="9">16:00</text>
+  <text x="644" y="316" fill="#facc15" font-size="9">now</text>
+
+  <!-- bottom stats row -->
+  <rect x="36" y="334" width="648" height="1" fill="#0f2040"/>
+  <text x="36" y="356" fill="#334155" font-size="11">24h avg: <tspan fill="#64748b">$159K</tspan></text>
+  <text x="160" y="356" fill="#334155" font-size="11">peak: <tspan fill="#facc15">$1.98M</tspan></text>
+  <text x="270" y="356" fill="#334155" font-size="11">spike: <tspan fill="#facc15" font-weight="700">+1,145%</tspan></text>
+  <text x="420" y="356" fill="#334155" font-size="11">price move: <tspan fill="#4ade80">+14.2%</tspan></text>
+  <text x="580" y="356" fill="#334155" font-size="11">assessment: <tspan fill="#4ade80">organic</tspan></text>
+
+  <!-- bottom bar -->
+  <text x="360" y="420" fill="#0f2040" font-size="10" text-anchor="middle">surge · jupiter volume data · claude agent sdk · scanning every 60s</text>
+</svg>

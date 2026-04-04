@@ -1,0 +1,62 @@
+<svg width="720" height="320" viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Segoe UI','Arial',sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0d14"/>
+      <stop offset="100%" stop-color="#0a0a10"/>
+    </linearGradient>
+    <linearGradient id="cardG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1200"/>
+      <stop offset="100%" stop-color="#120e00"/>
+    </linearGradient>
+    <filter id="yglow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="720" height="320" fill="url(#bg3)"/>
+
+  <!-- top label -->
+  <text x="360" y="32" fill="#713f12" font-size="11" text-anchor="middle" letter-spacing="3">SURGE · VOLUME SIGNAL</text>
+
+  <!-- main signal card -->
+  <rect x="60" y="48" width="600" height="208" rx="14" fill="url(#cardG)" stroke="#713f12" stroke-width="1.5"/>
+  <rect x="60" y="48" width="600" height="5" rx="3" fill="#facc15" filter="url(#yglow)"/>
+
+  <!-- token name + direction badge -->
+  <text x="150" y="92" fill="#facc15" font-size="32" font-weight="700" text-anchor="middle">JUP</text>
+  <rect x="188" y="72" width="88" height="28" rx="14" fill="#422006"/>
+  <text x="232" y="91" fill="#4ade80" font-size="13" font-weight="700" text-anchor="middle">▲ BULLISH</text>
+
+  <!-- spike stats -->
+  <text x="420" y="86" fill="#713f12" font-size="11" text-anchor="middle">SPIKE</text>
+  <text x="420" y="108" fill="#facc15" font-size="28" font-weight="700" text-anchor="middle">12.4x</text>
+
+  <rect x="510" y="72" width="1" height="48" fill="#2d1c06"/>
+
+  <text x="570" y="86" fill="#713f12" font-size="11" text-anchor="middle">VOLUME</text>
+  <text x="570" y="108" fill="#e2e8f0" font-size="18" font-weight="700" text-anchor="middle">$1.98M</text>
+
+  <!-- divider -->
+  <rect x="88" y="124" width="544" height="1" fill="#2d1c06"/>
+
+  <!-- assessment row -->
+  <text x="180" y="150" fill="#713f12" font-size="10" text-anchor="middle">ASSESSMENT</text>
+  <text x="180" y="170" fill="#4ade80" font-size="14" font-weight="600" text-anchor="middle">organic</text>
+
+  <text x="360" y="150" fill="#713f12" font-size="10" text-anchor="middle">1H PRICE</text>
+  <text x="360" y="170" fill="#4ade80" font-size="14" font-weight="600" text-anchor="middle">+14.2%</text>
+
+  <text x="540" y="150" fill="#713f12" font-size="10" text-anchor="middle">CONFIDENCE</text>
+  <text x="540" y="170" fill="#facc15" font-size="14" font-weight="600" text-anchor="middle">0.87</text>
+
+  <!-- divider 2 -->
+  <rect x="88" y="186" width="544" height="1" fill="#2d1c06"/>
+
+  <!-- reasoning + entry -->
+  <text x="360" y="208" fill="#92400e" font-size="12" text-anchor="middle">Real buying pressure — volume and price rising together, no wash patterns</text>
+  <text x="360" y="228" fill="#facc15" font-size="12" font-weight="600" text-anchor="middle">→ buy now, target +8% in 15m, stop at entry −3%</text>
+
+  <!-- bottom -->
+  <text x="360" y="296" fill="#1a1200" font-size="10" text-anchor="middle">surge · solana · jupiter · built with claude agent sdk</text>
+</svg>
