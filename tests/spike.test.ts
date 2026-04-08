@@ -18,6 +18,14 @@ function makeVolume(overrides: Partial<TokenVolume> = {}): TokenVolume {
     refillRatio: 0.71,
     dexDominancePct: 60,
     baselineSamples: 0,
+    heuristicConfidence: 0.85,
+    heuristicSource: {
+      baseline: "rolling_volume_history",
+      breadth: "volume_share_proxy",
+      liquidity: "price_response_proxy",
+      refill: "rolling_volume_retention_proxy",
+      concentration: "tracked_universe_volume_share",
+    },
     lastUpdatedAt: Date.now(),
     ...overrides,
   };
@@ -41,6 +49,12 @@ describe("scoreBreakoutPressure", () => {
     const strong = scoreBreakoutPressure(makeVolume({ spikeRatio: 4.5, buyerBreadthPct: 38, refillRatio: 0.82, liquidityDeltaPct: 14 }));
     const weak = scoreBreakoutPressure(makeVolume({ spikeRatio: 4.5, buyerBreadthPct: 18, refillRatio: 0.33, liquidityDeltaPct: 2, dexDominancePct: 90 }));
     expect(strong.score).toBeGreaterThan(weak.score);
+  });
+
+  it("penalizes low-confidence heuristics", () => {
+    const confident = scoreBreakoutPressure(makeVolume({ heuristicConfidence: 0.9 }));
+    const uncertain = scoreBreakoutPressure(makeVolume({ heuristicConfidence: 0.25 }));
+    expect(confident.score).toBeGreaterThan(uncertain.score);
   });
 });
 

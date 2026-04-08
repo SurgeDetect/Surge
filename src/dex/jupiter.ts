@@ -9,14 +9,6 @@ interface JupiterPriceItem {
   };
 }
 
-interface TokenProfile {
-  symbol: string;
-  buyerBreadthPct: number;
-  liquidityDeltaPct: number;
-  refillRatio: number;
-  dexDominancePct: number;
-}
-
 const WATCHED_MINTS = [
   "So11111111111111111111111111111111111111112",
   "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
@@ -25,15 +17,6 @@ const WATCHED_MINTS = [
   "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
   "mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So",
 ];
-
-const PROFILES: Record<string, TokenProfile> = {
-  SOL: { symbol: "SOL", buyerBreadthPct: 31, liquidityDeltaPct: 9, refillRatio: 0.73, dexDominancePct: 58 },
-  JUP: { symbol: "JUP", buyerBreadthPct: 36, liquidityDeltaPct: 12, refillRatio: 0.76, dexDominancePct: 54 },
-  JTO: { symbol: "JTO", buyerBreadthPct: 28, liquidityDeltaPct: 8, refillRatio: 0.68, dexDominancePct: 61 },
-  BONK: { symbol: "BONK", buyerBreadthPct: 39, liquidityDeltaPct: 15, refillRatio: 0.72, dexDominancePct: 64 },
-  WIF: { symbol: "WIF", buyerBreadthPct: 26, liquidityDeltaPct: 7, refillRatio: 0.59, dexDominancePct: 74 },
-  mSOL: { symbol: "mSOL", buyerBreadthPct: 22, liquidityDeltaPct: 5, refillRatio: 0.83, dexDominancePct: 47 },
-};
 
 export async function fetchJupiterVolumes(): Promise<TokenVolume[]> {
   const ids = WATCHED_MINTS.join(",");
@@ -51,29 +34,29 @@ export async function fetchJupiterVolumes(): Promise<TokenVolume[]> {
     const volumeUsd = item.extraInfo?.quotedSwapInfo?.volumeUsd ?? 0;
     if (volumeUsd < config.MIN_VOLUME_USD) continue;
 
-    const profile = PROFILES[item.mintSymbol] ?? {
-      symbol: item.mintSymbol,
-      buyerBreadthPct: 24,
-      liquidityDeltaPct: 6,
-      refillRatio: 0.6,
-      dexDominancePct: 70,
-    };
-
     volumes.push({
       mint,
-      symbol: profile.symbol,
+      symbol: item.mintSymbol || mint.slice(0, 6),
       chain: "solana",
       currentVolume: volumeUsd,
       baselineVolume: 0,
       spikeRatio: 0,
-      priceChange1h: Number(((profile.liquidityDeltaPct - 2) * 0.55).toFixed(2)),
+      priceChange1h: 0,
       priceUsd: item.price,
       dex: "Jupiter",
-      buyerBreadthPct: profile.buyerBreadthPct,
-      liquidityDeltaPct: profile.liquidityDeltaPct,
-      refillRatio: profile.refillRatio,
-      dexDominancePct: profile.dexDominancePct,
+      buyerBreadthPct: 0,
+      liquidityDeltaPct: 0,
+      refillRatio: 0,
+      dexDominancePct: 0,
       baselineSamples: 0,
+      heuristicConfidence: 0.2,
+      heuristicSource: {
+        baseline: "rolling_volume_history",
+        breadth: "volume_share_proxy",
+        liquidity: "price_response_proxy",
+        refill: "rolling_volume_retention_proxy",
+        concentration: "tracked_universe_volume_share",
+      },
       lastUpdatedAt: Date.now(),
     });
   }

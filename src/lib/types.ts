@@ -15,6 +15,14 @@ export interface TokenVolume {
   refillRatio: number;
   dexDominancePct: number;
   baselineSamples: number;
+  heuristicConfidence: number;
+  heuristicSource: {
+    baseline: "rolling_volume_history";
+    breadth: "volume_share_proxy";
+    liquidity: "price_response_proxy";
+    refill: "rolling_volume_retention_proxy";
+    concentration: "tracked_universe_volume_share";
+  };
   lastUpdatedAt: number;
 }
 
@@ -26,6 +34,7 @@ export interface BreakoutDiagnostics {
     liquidity: number;
     refill: number;
     concentrationPenalty: number;
+    confidencePenalty: number;
   };
 }
 
