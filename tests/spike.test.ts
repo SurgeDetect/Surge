@@ -53,4 +53,11 @@ describe("detectSpikes", () => {
     expect(results).toHaveLength(1);
     expect(results[0]?.symbol).toBe("JUP");
   });
+
+  it("keeps the strongest continuation candidate first", () => {
+    const weaker = makeVolume({ symbol: "SOL", mint: "mint-4", spikeRatio: 3.1, buyerBreadthPct: 28, refillRatio: 0.57 });
+    const stronger = makeVolume({ symbol: "BONK", mint: "mint-5", spikeRatio: 4.4, buyerBreadthPct: 38, refillRatio: 0.82, liquidityDeltaPct: 14 });
+    const results = detectSpikes([weaker, stronger]);
+    expect(results[0]?.symbol).toBe("BONK");
+  });
 });
