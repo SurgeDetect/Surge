@@ -16,6 +16,13 @@ Find the Solana breakouts that still look tradable after the first sweep.
 
 Breakout Board • Live Ticket • Operating Surfaces • Why Surge Exists • Signal Ladder • Technical Spec • Quick Start
 
+## At a Glance
+
+- `Use case`: short-horizon breakout filtering for Solana tokens
+- `Primary input`: buyer breadth, liquidity migration, refill behavior
+- `Primary failure mode`: optical spikes that become untradeable after the first sweep
+- `Best for`: operators who need to know whether a move can still be exited cleanly
+
 ## Breakout Board
 
 ![Surge breakout board](assets/preview-chart.svg)
@@ -68,6 +75,18 @@ Surge pushes names through four practical states:
 
 The operator is supposed to see where the move is failing, not just whether the score is high.
 
+## How It Works
+
+Surge follows a narrow sequence on every cycle:
+
+1. collect fresh routed volume from the monitored Solana pairs
+2. compare current flow against the rolling baseline
+3. test whether the move is broadening across buyers instead of concentrating
+4. check whether top-of-book depth and refill quality still support continuation
+5. rank the survivors and print the names worth watching
+
+The model is intentionally front-loaded with rejection logic. Most spikes should die before they become a terminal ticket.
+
 ## How A Real Scan Cycle Reads
 
 A good Surge cycle usually feels boring before it feels exciting.
@@ -87,6 +106,21 @@ That is why the board is useful during noisy meme conditions. It gives a structu
 - they reward dramatic candles even when one venue is doing all the work
 
 Surge is designed specifically to remove those false positives.
+
+## Example Output
+
+```text
+SURGE // BREAKOUT PRESSURE TICKET
+
+[PROMOTE] BONK
+pressure score     0.84
+buyer breadth      34%
+liq delta          +10%
+refill ratio       0.71
+dex concentration  60%
+
+operator note: breadth is broad enough and refill held after the first sweep
+```
 
 ## Technical Spec
 
@@ -127,6 +161,15 @@ Surge is designed specifically to remove those false positives.
 - depth is being consumed faster than it can recover
 
 Quiet output is often a good sign. It means the board is filtering out spectacle that does not deserve operator time.
+
+## Risk Controls
+
+- `breadth gate`: rejects moves with narrow buyer participation
+- `depth gate`: rejects moves that are growing price without growing exitable depth
+- `refill gate`: rejects names where the book does not recover after each sweep
+- `venue gate`: rejects single-venue dominance that makes the move too easy to manipulate
+
+Surge is deliberately conservative because a late breakout entry with no exit path is worse than no signal at all.
 
 ## Quick Start
 
