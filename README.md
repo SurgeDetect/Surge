@@ -2,8 +2,13 @@
 
 Breakout-pressure engine for Solana tokens.
 
-Surge does not treat every volume spike as alpha. It scores whether a move can keep traveling by checking buyer breadth, liquidity migration, refill quality, and venue concentration before handing the setup to the agent loop.
-It is deliberately biased toward setups that still have exitable depth after the first sweep.
+Find the Solana breakouts that still look tradable after the first sweep.
+
+`bun run dev`
+
+- watches buyer breadth, liquidity migration, refill quality, and venue concentration
+- ignores one-wallet spikes and thin one-venue squeezes
+- promotes setups that still have exitable depth after the initial burst
 
 [![Build](https://img.shields.io/github/actions/workflow/status/SurgeDetect/Surge/ci.yml?branch=master&style=flat-square&label=Build)](https://github.com/SurgeDetect/Surge/actions)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
@@ -13,9 +18,16 @@ It is deliberately biased toward setups that still have exitable depth after the
 
 ![Surge breakout board](assets/preview-chart.svg)
 
-## Terminal Ticket
+## Live Ticket
 
 ![Surge terminal](assets/preview-signal.svg)
+
+## Operating Surfaces
+
+- `Breakout Board`: ranks candidates by pressure quality instead of raw volume
+- `Flow Components`: exposes the inputs driving the breakout score
+- `Cycle Log`: shows why a name stayed eligible, moved to watch, or fell out
+- `Terminal Ticket`: prints the exact setup the operator sees in the scan
 
 ## Why Surge Exists
 
@@ -82,6 +94,13 @@ SCAN_INTERVAL_MS=60000
 
 - [Commit sequence](docs/commit-sequence.md)
 - [Issue drafts](docs/issue-drafts.md)
+
+## Support Docs
+
+- [Runbook](docs/runbook.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
 
 ## License
 
