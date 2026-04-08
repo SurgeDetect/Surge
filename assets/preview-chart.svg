@@ -6,11 +6,15 @@
 
   <rect x="56" y="126" width="500" height="170" rx="18" fill="#102031" stroke="#264860"/>
   <text x="76" y="154" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Composite Pressure Wave</text>
+  <rect x="458" y="140" width="78" height="24" rx="12" fill="#173246" stroke="#2f5570"/>
+  <text x="477" y="156" fill="#FFC857" font-family="Arial, sans-serif" font-size="12" font-weight="700">score 0.84</text>
   <line x1="80" y1="258" x2="530" y2="258" stroke="#38546A" stroke-width="2"/>
   <line x1="80" y1="220" x2="530" y2="220" stroke="#2B5E68" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="82" y="216" fill="#5da8aa" font-family="Arial, sans-serif" font-size="11">breakout threshold</text>
   <path d="M84 238 L128 232 L172 220 L216 210 L260 186 L304 174 L348 156 L392 146 L436 124 L480 116 L528 104" stroke="#46D9CC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <circle cx="528" cy="104" r="6" fill="#FFC857"/>
-  <text x="540" y="108" fill="#FFC857" font-family="Arial, sans-serif" font-size="12" font-weight="700">score 0.84</text>
+  <text x="84" y="280" fill="#5f7890" font-family="Arial, sans-serif" font-size="11">09:08</text>
+  <text x="492" y="280" fill="#5f7890" font-family="Arial, sans-serif" font-size="11">09:15</text>
 
   <rect x="580" y="126" width="304" height="170" rx="18" fill="#102031" stroke="#264860"/>
   <text x="600" y="154" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Flow Components</text>
@@ -34,11 +38,11 @@
   <text x="95" y="412" fill="#F3F6FB" font-family="Arial, sans-serif" font-size="24" font-weight="700">34%</text>
   <rect x="156" y="368" width="72" height="56" rx="12" fill="#1D3550"/>
   <text x="172" y="388" fill="#78A6C8" font-family="Arial, sans-serif" font-size="11">depth</text>
-  <text x="172" y="412" fill="#F3F6FB" font-family="Arial, sans-serif" font-size="24" font-weight="700">$182k</text>
+  <text x="166" y="412" fill="#F3F6FB" font-family="Arial, sans-serif" font-size="22" font-weight="700">$182k</text>
 
   <rect x="338" y="320" width="546" height="126" rx="18" fill="#102031" stroke="#264860"/>
   <text x="358" y="348" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Cycle Log</text>
-  <text x="358" y="380" fill="#46D9CC" font-family="Courier New, monospace" font-size="13">09:14 BONK flagged as organic breakout after breadth held above 30%</text>
-  <text x="358" y="406" fill="#FFC857" font-family="Courier New, monospace" font-size="13">09:14 WIF downgraded to exhaustion risk when refill ratio slipped to 0.41</text>
-  <text x="358" y="432" fill="#8EC9FF" font-family="Courier New, monospace" font-size="13">09:15 SOL stayed on watch while liquidity improved but breadth was still muted</text>
+  <text x="358" y="380" fill="#46D9CC" font-family="Courier New, monospace" font-size="12">09:14 BONK stayed eligible after breadth held above 30%.</text>
+  <text x="358" y="406" fill="#FFC857" font-family="Courier New, monospace" font-size="12">09:14 WIF moved to watchlist when refill ratio slipped to 0.41.</text>
+  <text x="358" y="432" fill="#8EC9FF" font-family="Courier New, monospace" font-size="12">09:15 SOL kept improving on depth, but breadth was still muted.</text>
 </svg>
