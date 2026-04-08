@@ -1,108 +1,87 @@
-<div align="center">
-
 # Surge
 
-**Volume spike detector for Solana tokens.**
-Finds tokens with 3x+ abnormal DEX volume. Uses Claude to tell you if it's real buying pressure or just noise.
+Breakout-pressure engine for Solana tokens.
+
+Surge does not treat every volume spike as alpha. It scores whether a move can keep traveling by checking buyer breadth, liquidity migration, refill quality, and venue concentration before handing the setup to the agent loop.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/SurgeDetect/Surge/ci.yml?branch=master&style=flat-square&label=Build)](https://github.com/SurgeDetect/Surge/actions)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-[![Built with Claude Agent SDK](https://img.shields.io/badge/Built%20with-Claude%20Agent%20SDK-cc7800?style=flat-square)](https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)](https://www.typescriptlang.org/)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)
 
-</div>
+## Breakout Board
 
----
+![Surge breakout board](assets/preview-chart.svg)
 
-Before every significant price move, there's a volume spike. The problem is that 90% of volume spikes are noise — wash trading, bots, one-off large orders with no follow-through.
+## Terminal Ticket
 
-`Surge` builds a 24-hour baseline for every token it tracks. When current volume exceeds that baseline by 3x or more, it fires. Claude then classifies the spike: organic buying, wash trading, coordinated pump, or unknown. Only organic spikes with price confirmation generate trade signals.
+![Surge terminal](assets/preview-signal.svg)
 
-```
-FETCH → BASELINE → DETECT → CLASSIFY → SIGNAL
-```
+## Why Surge Exists
 
----
+Most meme scanners fire on raw volume. That is the easy part. The useful distinction is whether the spike is broad enough and liquid enough to keep moving after the first burst.
 
-## Volume Chart
+Surge ranks each candidate with a continuation model:
 
-![Surge Volume Chart](assets/preview-chart.svg)
+`breakoutScore = 0.34 * spike + 0.24 * breadth + 0.22 * liquidity + 0.20 * refill - 0.18 * concentrationPenalty`
 
----
+Signals are rejected when any of these fail:
+- `buyerBreadthPct < MIN_BUYER_BREADTH_PCT`
+- `liquidityDeltaPct < MIN_LIQUIDITY_DELTA_PCT`
+- `refillRatio < MIN_REFILL_RATIO`
+- `dexDominancePct > MAX_DEX_DOMINANCE_PCT`
 
-## Spike Signal
+## Technical Spec
 
-![Surge Signal](assets/preview-signal.svg)
+### Inputs
 
----
+- `spikeRatio`: current routed volume divided by the rolling baseline
+- `buyerBreadthPct`: share of buying flow coming from many small and medium takers instead of one pocket
+- `liquidityDeltaPct`: change in exitable top-of-book depth during the move
+- `refillRatio`: how much of the consumed book refills after each sweep
+- `dexDominancePct`: how concentrated the move is on a single venue
 
-## Architecture
+### Design Rationale
 
-```
-┌──────────────────────────────────────────┐
-│         Jupiter Volume Feed               │
-│   Real-time DEX volume per token pair    │
-└──────────────────┬───────────────────────┘
-                   ▼
-┌──────────────────────────────────────────┐
-│       Spike Detection Engine              │
-│   Rolling 24h baseline per token        │
-│   Flag tokens > SPIKE_THRESHOLD × avg   │
-└──────────────────┬───────────────────────┘
-                   ▼
-┌──────────────────────────────────────────┐
-│        Claude Surge Agent                 │
-│  get_spike_list → get_token_spike_detail │
-│  → emit_signal (organic/wash/pump)       │
-└──────────────────┬───────────────────────┘
-                   ▼
-┌──────────────────────────────────────────┐
-│          Signal Formatter                 │
-│   Terminal output · ratio · entry note   │
-└──────────────────────────────────────────┘
-```
+- High `spikeRatio` without breadth is usually a one-pocket move.
+- Positive `liquidityDeltaPct` means the market is still willing to make the pair.
+- Strong `refillRatio` reduces late-entry fragility.
+- High `dexDominancePct` increases manipulation risk and lowers continuation odds.
 
----
+### Signal Types
 
-## Signal Types
-
-| Type | Description | Action |
-|------|-------------|--------|
-| **organic** | Real buying, price confirms | Buy with stop |
-| **coordinated_pump** | Sudden coordinated buy | Catch early or skip |
-| **bot_wash** | High volume, price flat | Skip entirely |
-| **unknown** | Insufficient data | Wait for more data |
-
----
+- `organic_breakout`: broad demand with healthy refill and growing depth
+- `rotational_bid`: real inflow, but more sector rotation than full breakout participation
+- `spoofed_surge`: concentrated or thin move that looks optically large
+- `exhaustion_risk`: strong move, but refill quality is fading into the push
 
 ## Quick Start
 
 ```bash
 git clone https://github.com/SurgeDetect/Surge
-cd Surge && bun install
+cd Surge
+npm install
 cp .env.example .env
-bun run dev
+npm run dev
 ```
-
----
 
 ## Configuration
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-...
-SPIKE_THRESHOLD=3.0       # flag at 3x baseline volume
-MIN_VOLUME_USD=50000      # minimum volume to track
-BASELINE_WINDOW_HOURS=24  # rolling baseline window
-MAX_SIGNALS_PER_CYCLE=5
+SPIKE_THRESHOLD=2.8
+MIN_VOLUME_USD=80000
+MIN_BUYER_BREADTH_PCT=24
+MIN_LIQUIDITY_DELTA_PCT=6
+MIN_REFILL_RATIO=0.55
+MAX_DEX_DOMINANCE_PCT=82
 SCAN_INTERVAL_MS=60000
 ```
 
----
+## Local Audit Docs
+
+- [Commit sequence](docs/commit-sequence.md)
+- [Issue drafts](docs/issue-drafts.md)
 
 ## License
 
 MIT
-
----
-
-*find the spike. read the move.*

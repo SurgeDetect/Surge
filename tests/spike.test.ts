@@ -1,62 +1,56 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, expect, it } from "vitest";
+import { computeSpikeRatios, scoreBreakoutPressure, detectSpikes, updateBaseline } from "../src/detection/spike.js";
+import type { TokenVolume } from "../src/lib/types.js";
 
-// Test the spike detection logic directly (pure functions)
-function computeSpikeRatio(currentVolume: number, historyVolumes: number[]): number {
-  if (historyVolumes.length < 2) return 1;
-  const baseline = historyVolumes.slice(0, -1).reduce((a, b) => a + b, 0) / (historyVolumes.length - 1);
-  return baseline > 0 ? currentVolume / baseline : 1;
+function makeVolume(overrides: Partial<TokenVolume> = {}): TokenVolume {
+  return {
+    mint: "mint-1",
+    symbol: "BONK",
+    chain: "solana",
+    currentVolume: 100_000,
+    baselineVolume: 0,
+    spikeRatio: 1,
+    priceChange1h: 6,
+    priceUsd: 0.00002,
+    dex: "Jupiter",
+    buyerBreadthPct: 34,
+    liquidityDeltaPct: 10,
+    refillRatio: 0.71,
+    dexDominancePct: 60,
+    baselineSamples: 0,
+    lastUpdatedAt: Date.now(),
+    ...overrides,
+  };
 }
 
-describe("spike ratio calculation", () => {
-  it("returns 1 when history is too short", () => {
-    expect(computeSpikeRatio(100_000, [])).toBe(1);
-    expect(computeSpikeRatio(100_000, [50_000])).toBe(1);
-  });
+describe("computeSpikeRatios", () => {
+  it("returns baseline sample count and computes ratio after enough history", () => {
+    const volume = makeVolume();
+    updateBaseline([{ ...volume, currentVolume: 20_000 }]);
+    updateBaseline([{ ...volume, currentVolume: 25_000 }]);
+    updateBaseline([{ ...volume, currentVolume: 90_000 }]);
 
-  it("detects 5x spike correctly", () => {
-    const history = [20_000, 20_000, 20_000, 100_000];
-    const ratio = computeSpikeRatio(100_000, history);
-    expect(ratio).toBeCloseTo(5, 0);
-  });
-
-  it("returns 1 when volume matches baseline", () => {
-    const history = [50_000, 50_000, 50_000, 50_000];
-    const ratio = computeSpikeRatio(50_000, history);
-    expect(ratio).toBeCloseTo(1, 1);
-  });
-
-  it("handles zero baseline without throwing", () => {
-    const ratio = computeSpikeRatio(100_000, [0, 0, 0, 100_000]);
-    expect(ratio).toBe(1);
+    const [scored] = computeSpikeRatios([makeVolume({ currentVolume: 90_000 })]);
+    expect(scored.baselineSamples).toBe(3);
+    expect(scored.spikeRatio).toBeGreaterThan(3);
   });
 });
 
-describe("spike filtering", () => {
-  const threshold = 3.0;
-
-  it("filters out tokens below threshold", () => {
-    const ratios = [1.2, 2.8, 3.5, 7.1, 0.9];
-    const spikes = ratios.filter((r) => r >= threshold);
-    expect(spikes).toHaveLength(2);
-  });
-
-  it("sorts spikes descending by ratio", () => {
-    const spikes = [3.5, 7.1, 4.2].sort((a, b) => b - a);
-    expect(spikes[0]).toBe(7.1);
-    expect(spikes[2]).toBe(3.5);
+describe("scoreBreakoutPressure", () => {
+  it("rewards broad participation and refill quality", () => {
+    const strong = scoreBreakoutPressure(makeVolume({ spikeRatio: 4.5, buyerBreadthPct: 38, refillRatio: 0.82, liquidityDeltaPct: 14 }));
+    const weak = scoreBreakoutPressure(makeVolume({ spikeRatio: 4.5, buyerBreadthPct: 18, refillRatio: 0.33, liquidityDeltaPct: 2, dexDominancePct: 90 }));
+    expect(strong.score).toBeGreaterThan(weak.score);
   });
 });
 
-describe("signal model", () => {
-  it("valid assessment types", () => {
-    const valid = ["organic", "bot_wash", "coordinated_pump", "unknown"];
-    expect(valid).toContain("organic");
-    expect(valid).toContain("bot_wash");
-  });
-
-  it("confidence is bounded", () => {
-    const confidence = 0.87;
-    expect(confidence).toBeGreaterThanOrEqual(0);
-    expect(confidence).toBeLessThanOrEqual(1);
+describe("detectSpikes", () => {
+  it("filters out concentrated or fragile surges", () => {
+    const valid = makeVolume({ symbol: "JUP", spikeRatio: 3.4 });
+    const concentrated = makeVolume({ symbol: "WIF", mint: "mint-2", spikeRatio: 4.2, dexDominancePct: 91 });
+    const thin = makeVolume({ symbol: "JTO", mint: "mint-3", spikeRatio: 4.4, refillRatio: 0.41 });
+    const results = detectSpikes([valid, concentrated, thin]);
+    expect(results).toHaveLength(1);
+    expect(results[0]?.symbol).toBe("JUP");
   });
 });

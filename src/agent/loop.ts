@@ -3,6 +3,7 @@ import type { TokenVolume, SpikeSignal } from "../lib/types.js";
 import { SURGE_SYSTEM } from "./prompts.js";
 import { config } from "../lib/config.js";
 import { log } from "../lib/logger.js";
+import { scoreBreakoutPressure } from "../detection/spike.js";
 import crypto from "crypto";
 
 const client = new Anthropic({ apiKey: config.ANTHROPIC_API_KEY });
@@ -10,12 +11,12 @@ const client = new Anthropic({ apiKey: config.ANTHROPIC_API_KEY });
 const tools: Anthropic.Tool[] = [
   {
     name: "get_spike_list",
-    description: "Get all tokens with volume spikes this cycle, sorted by spike ratio",
+    description: "Get all breakout-pressure candidates this cycle, sorted by breakout score",
     input_schema: { type: "object" as const, properties: {} },
   },
   {
     name: "get_token_spike_detail",
-    description: "Get detailed spike data for a specific token symbol",
+    description: "Get detailed diagnostics for a specific token symbol",
     input_schema: {
       type: "object" as const,
       properties: { symbol: { type: "string" } },
@@ -24,12 +25,12 @@ const tools: Anthropic.Tool[] = [
   },
   {
     name: "emit_signal",
-    description: "Emit a volume spike signal for a token",
+    description: "Emit a breakout-pressure signal for a token",
     input_schema: {
       type: "object" as const,
       properties: {
         symbol: { type: "string" },
-        assessment: { type: "string", enum: ["organic", "bot_wash", "coordinated_pump", "unknown"] },
+        assessment: { type: "string", enum: ["organic_breakout", "rotational_bid", "spoofed_surge", "exhaustion_risk"] },
         direction: { type: "string", enum: ["bullish", "bearish", "neutral"] },
         confidence: { type: "number" },
         reasoning: { type: "string" },
@@ -42,12 +43,13 @@ const tools: Anthropic.Tool[] = [
 
 export async function runSurgeAgent(spikes: TokenVolume[]): Promise<SpikeSignal[]> {
   const signals: SpikeSignal[] = [];
-  const bySymbol = new Map(spikes.map((s) => [s.symbol.toUpperCase(), s]));
+  const ranked = [...spikes].sort((left, right) => scoreBreakoutPressure(right).score - scoreBreakoutPressure(left).score);
+  const bySymbol = new Map(ranked.map((candidate) => [candidate.symbol.toUpperCase(), candidate]));
 
   const messages: Anthropic.MessageParam[] = [
     {
       role: "user",
-      content: `${spikes.length} volume spikes detected this cycle. Analyze and emit signals for actionable opportunities.`,
+      content: `${ranked.length} breakout-pressure candidates detected this cycle. Focus on sustainable continuation, not generic volume spikes.`,
     },
   ];
 
@@ -72,21 +74,31 @@ export async function runSurgeAgent(spikes: TokenVolume[]): Promise<SpikeSignal[
 
       if (block.name === "get_spike_list") {
         result = JSON.stringify(
-          spikes.map((s) => ({
-            symbol: s.symbol,
-            chain: s.chain,
-            spikeRatio: s.spikeRatio.toFixed(1) + "x",
-            volumeUsd: `$${(s.currentVolume / 1_000).toFixed(0)}K`,
-            baseline: `$${(s.baselineVolume / 1_000).toFixed(0)}K`,
-            priceChange1h: s.priceChange1h.toFixed(2) + "%",
-          }))
+          ranked.map((candidate) => {
+            const diagnostics = scoreBreakoutPressure(candidate);
+            return {
+              symbol: candidate.symbol,
+              breakoutScore: diagnostics.score.toFixed(2),
+              spikeRatio: candidate.spikeRatio.toFixed(1) + "x",
+              volumeUsd: `$${(candidate.currentVolume / 1_000).toFixed(0)}K`,
+              breadth: candidate.buyerBreadthPct.toFixed(0) + "%",
+              liquidityDelta: `${candidate.liquidityDeltaPct >= 0 ? "+" : ""}${candidate.liquidityDeltaPct.toFixed(0)}%`,
+              refill: candidate.refillRatio.toFixed(2),
+              dexDominance: candidate.dexDominancePct.toFixed(0) + "%",
+            };
+          })
         );
       } else if (block.name === "get_token_spike_detail") {
-        const token = bySymbol.get((input.symbol as string).toUpperCase());
-        result = token ? JSON.stringify(token) : "not found in spike list";
+        const candidate = bySymbol.get((input.symbol as string).toUpperCase());
+        result = candidate
+          ? JSON.stringify({ ...candidate, diagnostics: scoreBreakoutPressure(candidate) })
+          : "not found in candidate list";
       } else if (block.name === "emit_signal") {
-        const token = bySymbol.get((input.symbol as string).toUpperCase());
-        if (!token) { result = "token not found"; continue; }
+        const candidate = bySymbol.get((input.symbol as string).toUpperCase());
+        if (!candidate) {
+          result = "token not found";
+          continue;
+        }
         if ((input.confidence as number) < config.MIN_CONFIDENCE) {
           result = JSON.stringify({ accepted: false, reason: "below min confidence" });
           continue;
@@ -95,14 +107,19 @@ export async function runSurgeAgent(spikes: TokenVolume[]): Promise<SpikeSignal[
           result = JSON.stringify({ accepted: false, reason: "max signals reached" });
           continue;
         }
+        const breakoutScore = scoreBreakoutPressure(candidate).score;
         const signal: SpikeSignal = {
           id: crypto.randomUUID(),
-          mint: token.mint,
-          symbol: token.symbol,
-          chain: token.chain,
-          spikeRatio: token.spikeRatio,
-          volumeUsd: token.currentVolume,
-          priceChange1h: token.priceChange1h,
+          mint: candidate.mint,
+          symbol: candidate.symbol,
+          chain: candidate.chain,
+          spikeRatio: candidate.spikeRatio,
+          volumeUsd: candidate.currentVolume,
+          priceChange1h: candidate.priceChange1h,
+          buyerBreadthPct: candidate.buyerBreadthPct,
+          refillRatio: candidate.refillRatio,
+          liquidityDeltaPct: candidate.liquidityDeltaPct,
+          breakoutScore,
           assessment: input.assessment as SpikeSignal["assessment"],
           direction: input.direction as SpikeSignal["direction"],
           confidence: input.confidence as number,
@@ -111,7 +128,7 @@ export async function runSurgeAgent(spikes: TokenVolume[]): Promise<SpikeSignal[
           generatedAt: Date.now(),
         };
         signals.push(signal);
-        log.info(`Signal: ${signal.symbol} ${signal.spikeRatio.toFixed(1)}x ${signal.assessment} conf=${signal.confidence}`);
+        log.info(`Signal: ${signal.symbol} breakout=${signal.breakoutScore.toFixed(2)} conf=${signal.confidence.toFixed(2)}`);
         result = JSON.stringify({ accepted: true, id: signal.id });
       }
 
