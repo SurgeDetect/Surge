@@ -1,7 +1,7 @@
 {
   "name": "surge",
   "version": "0.1.1",
-  "description": "Volume spike detector — finds tokens with unusual DEX volume and uses Claude to classify organic vs manipulation",
+  "description": "Solana breakout-pressure engine that ranks continuation setups by breadth, depth, and refill quality",
   "license": "MIT",
   "repository": {
     "type": "git",
