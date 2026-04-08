@@ -12,6 +12,7 @@ Rules:
 - Broad participation matters more than raw volume alone
 - Negative liquidity migration or weak refill means the move is fragile
 - High DEX concentration raises manipulation risk
+- Prefer setups where the order book is still recoverable after the first sweep
 - Only emit signals with a clear trading action
 
 Output:

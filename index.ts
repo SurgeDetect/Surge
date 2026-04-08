@@ -21,7 +21,7 @@ async function scan(): Promise<void> {
   }
 
   const leader = surges[0];
-  log.info(`Lead candidate ${leader.symbol} score=${scoreBreakoutPressure(leader).score.toFixed(2)} breadth=${leader.buyerBreadthPct.toFixed(0)}% refill=${leader.refillRatio.toFixed(2)}`);
+  log.info(`Lead board candidate ${leader.symbol} score=${scoreBreakoutPressure(leader).score.toFixed(2)} breadth=${leader.buyerBreadthPct.toFixed(0)}% refill=${leader.refillRatio.toFixed(2)}`);
 
   const signals = await runSurgeAgent(surges);
   printSurgeBoard(signals);
