@@ -2,7 +2,7 @@
   <rect width="960" height="520" fill="#0E1726"/>
   <rect x="28" y="26" width="904" height="468" rx="26" fill="#162538" stroke="#28445F"/>
   <text x="56" y="72" fill="#F3F6FB" font-family="Arial, sans-serif" font-size="24" font-weight="700">Surge // Breakout Pressure Board</text>
-  <text x="56" y="98" fill="#8BA5BC" font-family="Arial, sans-serif" font-size="13">volume, breadth, liquidity migration, refill quality</text>
+  <text x="56" y="98" fill="#8BA5BC" font-family="Arial, sans-serif" font-size="13">continuation over raw volume, with depth-aware flow filters</text>
 
   <rect x="56" y="126" width="500" height="170" rx="18" fill="#102031" stroke="#264860"/>
   <text x="76" y="154" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Composite Pressure Wave</text>
@@ -40,5 +40,5 @@
   <text x="358" y="348" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Cycle Log</text>
   <text x="358" y="380" fill="#46D9CC" font-family="Courier New, monospace" font-size="13">09:14 BONK flagged as organic breakout after breadth held above 30%</text>
   <text x="358" y="406" fill="#FFC857" font-family="Courier New, monospace" font-size="13">09:14 WIF downgraded to exhaustion risk when refill ratio slipped to 0.41</text>
-  <text x="358" y="432" fill="#8EC9FF" font-family="Courier New, monospace" font-size="13">09:15 SOL kept on watch while liquidity delta stayed positive but muted</text>
+  <text x="358" y="432" fill="#8EC9FF" font-family="Courier New, monospace" font-size="13">09:15 SOL stayed on watch while liquidity improved but breadth was still muted</text>
 </svg>

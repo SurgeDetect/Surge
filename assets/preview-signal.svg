@@ -8,5 +8,5 @@
   <text x="54" y="220" fill="#9CCBFF" font-family="Courier New, monospace" font-size="16">entry: wait for 5m hold above the sweep high before adding size</text>
   <text x="54" y="272" fill="#65D5C9" font-family="Courier New, monospace" font-size="18">---------------- Watchlist -------------------</text>
   <text x="54" y="312" fill="#E6EEF6" font-family="Courier New, monospace" font-size="15">JUP  rotational bid   score 0.68   liq +8%   depth stable</text>
-  <text x="54" y="340" fill="#E6EEF6" font-family="Courier New, monospace" font-size="15">WIF  exhaustion risk  score 0.42   refill 0.41   skip chase</text>
+  <text x="54" y="340" fill="#E6EEF6" font-family="Courier New, monospace" font-size="15">WIF  exhaustion risk  score 0.42   refill 0.41   wait for cleaner reset</text>
 </svg>
