@@ -43,6 +43,23 @@ Signals are rejected when any of these fail:
 - `refillRatio < MIN_REFILL_RATIO`
 - `dexDominancePct > MAX_DEX_DOMINANCE_PCT`
 
+## What Surge Looks For
+
+The strongest Surge setup does not just print volume. It broadens. You want fresh takers, a book that keeps refilling, and enough depth growth that the move still looks tradeable after the first chase candle.
+
+That is why Surge cares about participation quality more than dramatic candles. A break that only lives on one venue or one wallet cluster is usually too fragile to promote.
+
+## Signal Ladder
+
+Surge pushes names through four practical states:
+
+- `scan`: the name is active, but the move still needs confirmation
+- `watch`: the move is real enough to track, but one component is still weak
+- `promote`: breadth, refill, and depth all support continuation
+- `reject`: the move is too concentrated, too thin, or too late
+
+The operator is supposed to see where the move is failing, not just whether the score is high.
+
 ## Technical Spec
 
 ### Inputs
@@ -89,6 +106,12 @@ MIN_REFILL_RATIO=0.55
 MAX_DEX_DOMINANCE_PCT=82
 SCAN_INTERVAL_MS=60000
 ```
+
+## Why Traders Keep It Open
+
+Surge is meant to be glanced at during noisy conditions. The board gives one clean question: if this move extends, will there still be enough market left to exit?
+
+That framing matters more than raw breakout excitement. A lot of meme flow looks explosive for one minute and untradeable the next. Surge exists to cut that out.
 
 ## Local Audit Docs
 
