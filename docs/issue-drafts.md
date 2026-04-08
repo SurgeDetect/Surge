@@ -13,3 +13,5 @@ Title: `Need venue-specific refill tracking instead of one blended refill ratio`
 
 Body:
 Some surges look safe because aggregate refill is fine, but the actual lead venue gets thinner while secondary venues keep refilling. That is still fragile for real entries. We should track refill by venue and weight the lead venue more heavily.
+
+Backlog note: validate both issues against replayed meme launches before changing the default thresholds.

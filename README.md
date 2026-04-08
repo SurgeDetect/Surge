@@ -3,6 +3,7 @@
 Breakout-pressure engine for Solana tokens.
 
 Surge does not treat every volume spike as alpha. It scores whether a move can keep traveling by checking buyer breadth, liquidity migration, refill quality, and venue concentration before handing the setup to the agent loop.
+It is deliberately biased toward setups that still have exitable depth after the first sweep.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/SurgeDetect/Surge/ci.yml?branch=master&style=flat-square&label=Build)](https://github.com/SurgeDetect/Surge/actions)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)

@@ -10,3 +10,5 @@
 8. `design(svg): add breakout board hero with flow components`
 9. `design(svg): add terminal ticket preview for surge entries`
 10. `chore(audit): add issue drafts and legitimacy notes`
+
+Operational note: keep future commits tied to one scan surface at a time so the repo history reads naturally.
