@@ -8,11 +8,12 @@
   <text x="76" y="154" fill="#DDE7F0" font-family="Arial, sans-serif" font-size="15" font-weight="700">Composite Pressure Wave</text>
   <rect x="458" y="140" width="78" height="24" rx="12" fill="#173246" stroke="#2f5570"/>
   <text x="477" y="156" fill="#FFC857" font-family="Arial, sans-serif" font-size="12" font-weight="700">score 0.84</text>
+  <rect x="80" y="166" width="448" height="92" rx="12" fill="#132538"/>
   <line x1="80" y1="258" x2="530" y2="258" stroke="#38546A" stroke-width="2"/>
   <line x1="80" y1="220" x2="530" y2="220" stroke="#2B5E68" stroke-width="2" stroke-dasharray="6 6"/>
   <text x="82" y="216" fill="#5da8aa" font-family="Arial, sans-serif" font-size="11">breakout threshold</text>
-  <path d="M84 238 L128 232 L172 220 L216 210 L260 186 L304 174 L348 156 L392 146 L436 140 L480 132 L528 122" stroke="#46D9CC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="528" cy="122" r="6" fill="#FFC857"/>
+  <path d="M84 238 L128 233 L172 226 L216 216 L260 204 L304 196 L348 188 L392 182 L436 176 L480 172 L528 168" stroke="#46D9CC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="528" cy="168" r="6" fill="#FFC857"/>
   <text x="84" y="280" fill="#5f7890" font-family="Arial, sans-serif" font-size="11">09:08</text>
   <text x="492" y="280" fill="#5f7890" font-family="Arial, sans-serif" font-size="11">09:15</text>
 
