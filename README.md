@@ -14,6 +14,8 @@ Find the Solana breakouts that still look tradable after the first sweep.
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)
 
+Breakout Board • Live Ticket • Operating Surfaces • Why Surge Exists • Signal Ladder • Technical Spec • Quick Start
+
 ## Breakout Board
 
 ![Surge breakout board](assets/preview-chart.svg)
@@ -28,6 +30,12 @@ Find the Solana breakouts that still look tradable after the first sweep.
 - `Flow Components`: exposes the inputs driving the breakout score
 - `Cycle Log`: shows why a name stayed eligible, moved to watch, or fell out
 - `Terminal Ticket`: prints the exact setup the operator sees in the scan
+
+## What Surge Is Actually Trying To Solve
+
+The average breakout scanner is too easy to fool. One wallet can force a candle, one venue can print a dramatic move, and social traders will still treat it as a "signal" because the chart looks urgent.
+
+Surge is intentionally stricter than that. It assumes a move is fake until breadth, refill behavior, and exitable depth say otherwise. The point is not to catch every spike. The point is to keep attention on the spikes that still look tradeable after the first round of chasing is over.
 
 ## Why Surge Exists
 
@@ -60,6 +68,26 @@ Surge pushes names through four practical states:
 
 The operator is supposed to see where the move is failing, not just whether the score is high.
 
+## How A Real Scan Cycle Reads
+
+A good Surge cycle usually feels boring before it feels exciting.
+
+1. Volume expansion starts to appear on one or two Solana venues.
+2. Surge checks whether that flow is broadening across more buyers instead of concentrating.
+3. The board looks for depth growth and refill behavior after the first sweep.
+4. Only after those pieces line up does the candidate move from scan to watch or promote.
+
+That is why the board is useful during noisy meme conditions. It gives a structured reason to stay patient.
+
+## What Generic Spike Scanners Miss
+
+- they overvalue raw notional without checking who is actually buying
+- they promote thin books where exiting becomes the real problem
+- they fail to distinguish rotational flow from broad breakout participation
+- they reward dramatic candles even when one venue is doing all the work
+
+Surge is designed specifically to remove those false positives.
+
 ## Technical Spec
 
 ### Inputs
@@ -83,6 +111,22 @@ The operator is supposed to see where the move is failing, not just whether the 
 - `rotational_bid`: real inflow, but more sector rotation than full breakout participation
 - `spoofed_surge`: concentrated or thin move that looks optically large
 - `exhaustion_risk`: strong move, but refill quality is fading into the push
+
+## Practical Interpretation Guide
+
+### When Surge Is Strong
+
+- the top candidate still looks liquid after the first rush
+- buyer participation keeps broadening instead of narrowing
+- refill quality remains healthy while the move is underway
+
+### When Surge Stays Quiet
+
+- there is size, but no buyer breadth
+- the move only lives on one venue
+- depth is being consumed faster than it can recover
+
+Quiet output is often a good sign. It means the board is filtering out spectacle that does not deserve operator time.
 
 ## Quick Start
 
