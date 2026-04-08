@@ -5,7 +5,7 @@
 **Volume spike detector for Solana tokens.**
 Finds tokens with 3x+ abnormal DEX volume. Uses Claude to tell you if it's real buying pressure or just noise.
 
-[![Build](https://img.shields.io/github/actions/workflow/status/SurgeDetect/Surge/ci.yml?branch=main&style=flat-square&label=Build)](https://github.com/SurgeDetect/Surge/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/SurgeDetect/Surge/ci.yml?branch=master&style=flat-square&label=Build)](https://github.com/SurgeDetect/Surge/actions)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 [![Built with Claude Agent SDK](https://img.shields.io/badge/Built%20with-Claude%20Agent%20SDK-cc7800?style=flat-square)](https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)](https://www.typescriptlang.org/)

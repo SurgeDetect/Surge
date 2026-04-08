@@ -2,6 +2,15 @@
   "name": "surge",
   "version": "0.1.0",
   "description": "Volume spike detector — finds tokens with unusual DEX volume and uses Claude to classify organic vs manipulation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SurgeDetect/Surge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SurgeDetect/Surge/issues"
+  },
+  "homepage": "https://github.com/SurgeDetect/Surge#readme",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
