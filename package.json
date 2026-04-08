@@ -1,6 +1,6 @@
 {
   "name": "surge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Volume spike detector — finds tokens with unusual DEX volume and uses Claude to classify organic vs manipulation",
   "license": "MIT",
   "repository": {
@@ -31,6 +31,12 @@
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
+  "keywords": [
+    "solana",
+    "breakout",
+    "order-flow",
+    "volume-spike"
+  ],
   "engines": {
     "node": ">=20.0.0",
     "bun": ">=1.2.0"
