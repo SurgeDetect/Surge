@@ -115,7 +115,8 @@ export function detectSpikes(volumes: TokenVolume[]): TokenVolume[] {
     .filter((volume) => volume.liquidityDeltaPct >= config.MIN_LIQUIDITY_DELTA_PCT)
     .filter((volume) => volume.refillRatio >= config.MIN_REFILL_RATIO)
     .filter((volume) => volume.dexDominancePct <= config.MAX_DEX_DOMINANCE_PCT)
-    .sort((left, right) => scoreBreakoutPressure(right).score - scoreBreakoutPressure(left).score);
+    .sort((left, right) => scoreBreakoutPressure(right).score - scoreBreakoutPressure(left).score)
+    .slice(0, config.MAX_SIGNALS_PER_CYCLE);
 }
 
 export function getBaselineAge(mint: string): number {

@@ -74,4 +74,11 @@ describe("detectSpikes", () => {
     const results = detectSpikes([weaker, stronger]);
     expect(results[0]?.symbol).toBe("BONK");
   });
+
+  it("caps results at the configured cycle limit", () => {
+    const candidates = Array.from({ length: 8 }, (_, index) =>
+      makeVolume({ symbol: `TOK${index}`, mint: `mint-cap-${index}`, spikeRatio: 4 + index / 10, buyerBreadthPct: 36, refillRatio: 0.8, liquidityDeltaPct: 12 }),
+    );
+    expect(detectSpikes(candidates)).toHaveLength(5);
+  });
 });
