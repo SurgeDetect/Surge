@@ -14,7 +14,7 @@ Find the Solana breakouts that still look tradable after the first sweep.
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)
 
-Breakout Board • Live Ticket • Operating Surfaces • Why Surge Exists • Signal Ladder • Technical Spec • Quick Start
+Live Breakout Pressure Board • Live Ticket • Operating Surfaces • Why Surge Exists • Signal Ladder • Technical Spec • Quick Start
 
 ## At a Glance
 
@@ -23,9 +23,11 @@ Breakout Board • Live Ticket • Operating Surfaces • Why Surge Exists • S
 - `Primary failure mode`: optical spikes that become untradeable after the first sweep
 - `Best for`: operators who need to know whether a move can still be exited cleanly
 
-## Breakout Board
+## Live Breakout Pressure Board
 
-![Surge breakout board](assets/preview-chart.svg)
+<img src="assets/preview-main.png" alt="Surge Live Breakout Pressure Board" width="100%" />
+
+Live operating view for Surge: ranked candidate queue, Jupiter routed-volume feed, selected ticket with score components and four gates, composite pressure wave, and the agent's current PROMOTE, WATCH, SCAN, or REJECT decision.
 
 ## Live Ticket
 
