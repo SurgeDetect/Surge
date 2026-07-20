@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/SurgeDetect/Surge/issues"
   },
-  "homepage": "https://github.com/SurgeDetect/Surge#readme",
+  "homepage": "https://surge-launch.vercel.app",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
