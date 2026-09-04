@@ -1,7 +1,7 @@
 {
   "name": "surge",
   "version": "0.1.1",
-  "description": "Solana breakout-pressure engine that ranks continuation setups by breadth, depth, and refill quality",
+  "description": "Robinhood crypto breakout-quality filter that ranks participation, depth growth, refill, and order dispersion",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/SurgeDetect/Surge/issues"
   },
-  "homepage": "https://surge-launch.vercel.app",
+  "homepage": "https://surgedetect.com/",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -32,10 +32,11 @@
     "vitest": "^2.1.8"
   },
   "keywords": [
-    "solana",
+    "robinhood",
     "breakout",
     "order-flow",
-    "volume-spike"
+    "volume-spike",
+    "pons"
   ],
   "engines": {
     "node": ">=20.0.0",
